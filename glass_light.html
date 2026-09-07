@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head><style>body{margin:0;width:1024px;height:1024px;background:transparent}</style></head>
+<body>
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="35%" r="85%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="55%" stop-color="#eef1f6"/>
+      <stop offset="100%" stop-color="#dde3ec"/>
+    </radialGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.75"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.40"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.65"/>
+    </linearGradient>
+    <linearGradient id="edge" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="45%" stop-color="#ffffff" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.85"/>
+    </linearGradient>
+    <filter id="blur8" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="8"/></filter>
+    <filter id="blur24" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="24"/></filter>
+    <filter id="blur48" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="48"/></filter>
+  </defs>
+
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+
+  <!-- 折射色散光斑 -->
+  <ellipse cx="330" cy="300" rx="200" ry="130" fill="#6c8cff" opacity="0.28" filter="url(#blur48)"/>
+  <ellipse cx="720" cy="720" rx="220" ry="150" fill="#3fb950" opacity="0.20" filter="url(#blur48)"/>
+  <ellipse cx="680" cy="300" rx="160" ry="110" fill="#c084fc" opacity="0.22" filter="url(#blur48)"/>
+
+  <!-- 玻璃 squircle 主体 -->
+  <rect x="200" y="200" width="624" height="624" rx="180" fill="url(#glass)" stroke="url(#edge)" stroke-width="4"/>
+
+  <!-- 顶部高光弧 -->
+  <path d="M 240 330 Q 512 210 784 330" fill="none" stroke="#ffffff" stroke-opacity="0.9" stroke-width="24" stroke-linecap="round" filter="url(#blur24)"/>
+
+  <!-- 麦克风符号（深色描边） -->
+  <g fill="none" stroke="#1b2430" stroke-width="20" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 512 690 v 56"/>
+    <path d="M 620 560 v 34 a 108 108 0 0 1 -216 0 v -34"/>
+    <rect x="470" y="452" width="84" height="182" rx="42"/>
+  </g>
+</svg>
+</body>
+</html>

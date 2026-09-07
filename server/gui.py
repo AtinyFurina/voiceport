@@ -48,6 +48,7 @@ DANGER = "#f85149"
 QSS = f"""
 QWidget {{ background: {BG}; color: {TEXT}; font-size: 14px; font-family: 'Segoe UI','Microsoft YaHei'; }}
 QLabel, QCheckBox {{ background: transparent; }}
+QCheckBox {{ spacing: 8px; }}
 QListWidget {{ background: transparent; border: none; color: {MUTED}; outline: none; }}
 QListWidget::item {{ height: 42px; padding-left: 12px; border-radius: 8px; margin: 2px 8px; }}
 QListWidget::item:hover {{ background: {SURFACE2}; color: {TEXT}; }}
@@ -212,17 +213,15 @@ class ServiceControlPage(QWidget):
         # 开机自启动开关
         row = QHBoxLayout()
         left = QVBoxLayout()
-        ll = QLabel("开机自启动")
-        lh = QLabel("登录 Windows 后自动运行")
-        lh.setObjectName("hint")
-        left.addWidget(ll)
-        left.addWidget(lh)
-        self.autostart = QCheckBox()
+        self.autostart = QCheckBox("开机自启动")
         self.autostart.setChecked(self._read_autostart())
         self.autostart.toggled.connect(self._on_autostart)
+        lh = QLabel("登录后自动运行")
+        lh.setObjectName("hint")
+        left.addWidget(self.autostart)
+        left.addWidget(lh)
         row.addLayout(left)
         row.addStretch()
-        row.addWidget(self.autostart, alignment=Qt.AlignmentFlag.AlignVCenter)
         lay2.addLayout(row)
         outer.addWidget(card2)
         outer.addStretch()
@@ -523,13 +522,20 @@ class MainWindow(QMainWindow):
         a_quit = menu.addAction("退出")
         a_quit.triggered.connect(self._quit)
         self.tray.setContextMenu(menu)
-        self.tray.activated.connect(
-            lambda r: self._show() if r == QSystemTrayIcon.ActivationReason.DoubleClick else None
-        )
+        self.tray.activated.connect(self._on_tray_activated)
         self.tray.show()
+
+    def _on_tray_activated(self, reason):
+        # macOS 菜单栏单击=Trigger，Windows 双击=DoubleClick，都唤醒主窗口
+        if reason in (
+            QSystemTrayIcon.ActivationReason.Trigger,
+            QSystemTrayIcon.ActivationReason.DoubleClick,
+        ):
+            self._show()
 
     def _show(self):
         self.showNormal()
+        self.raise_()
         self.activateWindow()
 
     def _to_tray(self):
