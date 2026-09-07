@@ -46,7 +46,7 @@ SUCCESS = "#3fb950"
 DANGER = "#f85149"
 
 QSS = f"""
-QWidget {{ background: {BG}; color: {TEXT}; font-size: 14px; font-family: 'Segoe UI','Microsoft YaHei'; }}
+QWidget {{ background: {BG}; color: {TEXT}; font-size: 14px; font-family: -apple-system, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif; }}
 QLabel, QCheckBox {{ background: transparent; }}
 QCheckBox {{ spacing: 8px; }}
 QListWidget {{ background: transparent; border: none; color: {MUTED}; outline: none; }}

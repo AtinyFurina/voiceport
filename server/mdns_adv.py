@@ -1,7 +1,10 @@
 """mDNS 广播：_passport._tcp.local，TXT 记录 server_id/host/port。"""
+import logging
 import socket
 
-from zeroconf import ServiceInfo, Zeroconf
+from zeroconf import NonUniqueNameException, ServiceInfo, Zeroconf
+
+log = logging.getLogger("mdns")
 
 SERVICE_TYPE = "_passport._tcp.local."
 
@@ -19,16 +22,22 @@ def get_local_ip() -> str:
 class MdnsAdvertiser:
     def __init__(self, host: str, port: int, server_id: str):
         self.zc = Zeroconf()
+        base = f"passport-{server_id[:8]}"
         self.info = ServiceInfo(
             SERVICE_TYPE,
-            f"passport-{server_id[:8]}.{SERVICE_TYPE}",
+            f"{base}.{SERVICE_TYPE}",
             addresses=[socket.inet_aton(get_local_ip())],
             port=port,
             properties={"server_id": server_id, "host": host, "port": str(port)},
+            server=f"{base}.local.",
         )
 
     def start(self) -> None:
-        self.zc.register_service(self.info)
+        try:
+            self.zc.register_service(self.info)
+            log.info("mDNS 广播: %s", self.info.name)
+        except NonUniqueNameException:
+            log.warning("mDNS 服务名冲突（多实例/残留），跳过广播，不影响核心功能")
 
     def stop(self) -> None:
         self.zc.unregister_service(self.info)
