@@ -7,8 +7,10 @@ import platform
 import sys
 import threading
 import time
-import winreg
 from pathlib import Path
+
+if platform.system() == "Windows":
+    import winreg  # Windows 专用（macOS 无此模块）
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon, QPixmap
