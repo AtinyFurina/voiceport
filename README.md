@@ -50,4 +50,4 @@ pyinstaller --onefile --windowed --name VoicePort --icon icon.ico --add-data "ic
 
 ## License
 
-MIT
+GPL-3.0
