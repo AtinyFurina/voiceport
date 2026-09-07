@@ -57,3 +57,11 @@
 | OK(确定) | 输入键：长按录音 / draft 短按注入 / injected 短按回车发送 |
 | UP(上) | 修改键：draft 长按语音修改 |
 | DOWN(下) | 撤回键：draft 丢弃草稿 / injected 删注入文本 / 长按重选服务端 |
+
+## macOS 分发教训（重要）
+
+- **签名崩溃**：PyInstaller 打包的 `.app` 是 ad-hoc 签名；用 `cp -R` 复制到 /Applications 会破坏签名 → Taskgated `SIGKILL (Code Signature Invalid)`，启动即崩溃。
+- **正确流程**：打包后 `codesign --force --deep --sign - VoicePort.app` 重新签名，再用 `ditto VoicePort.app /Applications/` 复制（保留签名与扩展属性）。绝不用 `cp -R`。
+- **mDNS 冲突**：多实例残留会导致 `NonUniqueNameException`（服务名冲突），已做降级处理。
+- **托盘唤醒**：macOS 菜单栏图标是单击（Trigger）触发，不是双击。
+- **winreg**：Windows 专用模块，macOS 上必须条件导入。
