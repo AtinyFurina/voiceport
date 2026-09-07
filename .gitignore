@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+
+# 打包产物
+server/dist/
+server/build/
+*.spec
+tsf-injector/target/
+
+# 运行时数据（密钥/日志/历史）
+.env
+server/config.local.py
+.passport/
+
+# 视觉工具产物
+.dsh-vision-router/
+
+# 开发临时文件（截图/预览/mock）
+gui_window.png
+gui_screenshot.png
+app_icon.png
+ui_mock.html
+ui_mock.png
+webui_preview.html
+mic_render.html
+mic_white.svg
+
+# 系统
+.DS_Store
+Thumbs.db

@@ -1,0 +1,12 @@
+[package]
+name = "tsf-injector"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+imekit = "0.1"
+env_logger = "0.11"
+
+[[bin]]
+name = "tsf-injector"
+path = "src/main.rs"
